@@ -1,0 +1,71 @@
+<meta charset="utf-8" />
+<title>Instrukcja obsługi</title>
+<h1>
+	Instrukcja obsługi generatora precli</h1>
+<h2>
+	Instalacja</h2>
+<p>
+	Skopiuj wszystkie pliki z archiwum na serwer. Nie musisz ustawiać chmod&oacute;w - skrypt zrobi to za Ciebie.</p>
+<h2>
+	Generowanie precla</h2>
+<p>
+	W polu treść wpisz tekst z synonimami. Synonimy mogą być zagnieżdżone.&nbsp;</p>
+<p>
+	W polu linki wpisz linki kt&oacute;re mają być umieszczone w tekście. Każdy link musi być w osobnej linijce. Przedrostek http:// nie jest wymagany. Możesz też zaimportować listę link&oacute;w z pliku, wtedy lista link&oacute;w podana w formularzu zostanie zignorowana.</p>
+<p>
+	Aby poprawić jakość generowanego precla, możesz wpisać w polu tytuły tekst&oacute;w tekst z synonimami, kt&oacute;ry będzie używany podczas generowania tytuł&oacute;w artykuł&oacute;w. Jeśli pozostawisz to pole puste, skrypt sam wygeneruje tytuły na podstawie treści tekstu.</p>
+<p>
+	Możesz też podać pożądane nazwy podstron w polu nazwy podstron. Każdą nazwę wpisz w osobnej linijce. W obrębie jednej linijki mogą zostać użyte synonimy. Jeśli pozostawisz to pole puste, nazwy zostaną wygenerowane automatycznie.</p>
+<p>
+	Jeśli zamierzasz dołączyć do precla np. Google Analytics, będziesz musiał dodać kod do wygenerowanego dokumentu. Możesz to zrobić wypełniając według potrzeb pola kod w HEAD i kod w BODY.</p>
+<p>
+	Jeśli z jakiegoś powodu wymagane są dodatkowe pliki, np. zewnętrzny skrypt do wyświetlania reklam, możesz je dołączyć w polu dodatkowe pliki. Możesz dołączyć nielimitowaną ilość plik&oacute;w.</p>
+<p>
+	W polu ustawienia możesz zmienić ilość link&oacute;w na tekst (zalecane 2), ilość artykuł&oacute;w na stronę i szablon. <strong>Szablon nie ma wpływu na jakość SEO wygenerowanego precla, aczkolwiek niekt&oacute;re szablony mogą zmieniać strukturę dokumentu na bardziej lub mniej przyjazną wyszukiwarkom</strong>.</p>
+<p>
+	Możesz pobrać precla na dysk lub od razu wysłać go na serwer WWW. Obsługiwane są wszystkie serwery z DirectAdmin. Przykładowa konfiguracja:</p>
+<p>
+	Host: hexcom.net</p>
+<p>
+	Użytkownik: admin</p>
+<p>
+	Hasło: test123</p>
+<p>
+	Port: 21</p>
+<p>
+	Domena: jankowalski.pl</p>
+<p>
+	Umieści pliki w folderze /domains/hexcom.net/public_html/</p>
+<p>
+	Jeśli dodatkowo podasz katalog, np. testprecela, pliki będą umieszczone w katalogu /domains/hexcom.net/public_html/testprecla/</p>
+<h2>
+	Przerabianie szablonu HTML na zgodny z generatorem</h2>
+<p>
+	Utw&oacute;rz nowy folder. Nazwa folderu to nazwa szablonu. Skopiuj pliki szablonu HTML do nowo utworzonego folderu. Zmień nazwę gł&oacute;wnego pliku HTML (zazwyczaj index.html) na szablon.tpl. Otw&oacute;rz plik szablon.tpl dowolnym edytorem tekstu (zalecany Notepad++) i wykonaj następnujące kroki:</p>
+<ol>
+	<li>
+		Tuż po otwarciu znacznika &lt;head&gt; dopisz {$head}.</li>
+	<li>
+		Tuż po otwarciu znacznika &lt;body&gt; dopisz {$body}.</li>
+	<li>
+		W miejscu nagł&oacute;wka, gł&oacute;wnego tytułu dokumentu wpisz {$title}.</li>
+	<li>
+		Opcjonalnie umieść na dole strony kod <code>{if $nastepna_strona}&lt;a href=&quot;{$nastepna_strona}&quot; &gt;Następna strona&lt;/a&gt;{/if}</code></li>
+	<li>
+		Zmień linki w menu z np. <code>&lt;li&gt;&lt;a href=&quot;#&quot;&gt;Lorem ipsum&lt;/a&gt;&lt;/li&gt;</code> na <code>&lt;li&gt;&lt;a href=&quot;{$link.link}&quot;&gt;{$link.etykieta}&lt;/a&gt;&lt;/li&gt;</code></li>
+	<li>
+		Znajdź powtarzający się blok znacznik&oacute;w, w kt&oacute;rym jest gł&oacute;wna treść. Przer&oacute;b go wg. postępującego schematu:</li>
+</ol>
+<p>
+	<code>&lt;h2&gt;Przykładowy nagł&oacute;wek&lt;/h2&gt;</code></p>
+<p>
+	<code>Lorem ipsum dolor sit amet consectetuer adipiscing elit.</code></p>
+<p>
+	Zmień na:</p>
+<p>
+	<code>{foreach from=$teksty item=tekst}<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &lt;h2&gt;{$tekst.tytul}&lt;/h2&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; {$tekst.tresc}<br />
+	{/foreach}</code></p>
+<p>
+	Tak spreparowany szablon umieść w miejscu instalacji skryptu, w katalogu szablony. Od teraz Tw&oacute;j szablon będzie widoczny na liście szablon&oacute;w podczas generowania precla.</p>
